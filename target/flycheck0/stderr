@@ -1,60 +1,12 @@
-   0.024754600s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint: fingerprint error for multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server)/Check { test: false }/TargetInner { name: "multi-room-websocket-chat-server", doc: true, ..: with_path("C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs", Edition2024) }
-   0.024815600s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server\target\debug\.fingerprint\multi-room-websocket-chat-server-b8d29652c755febd\bin-multi-room-websocket-chat-server`
-
-Caused by:
-    The system cannot find the file specified. (os error 2)
-
-Stack backtrace:
-   0: git_midx_writer_dump
-   1: git_midx_writer_dump
-   2: git_midx_writer_dump
-   3: git_midx_writer_dump
-   4: git_filter_source_repo
-   5: git_filter_source_repo
-   6: git_filter_source_repo
-   7: git_filter_source_repo
-   8: git_filter_source_repo
-   9: git_filter_source_repo
-  10: git_filter_source_repo
-  11: git_libgit2_prerelease
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: <unknown>
-  16: git_midx_writer_dump
-  17: git_filter_source_repo
-  18: git_midx_writer_dump
-  19: BaseThreadInitThunk
-  20: RtlUserThreadStart
-   0.036087400s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint: fingerprint error for multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server)/Check { test: true }/TargetInner { name: "multi-room-websocket-chat-server", doc: true, ..: with_path("C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs", Edition2024) }
-   0.036116900s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:     err: failed to read `C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server\target\debug\.fingerprint\multi-room-websocket-chat-server-0af37e95931e50d9\test-bin-multi-room-websocket-chat-server`
-
-Caused by:
-    The system cannot find the file specified. (os error 2)
-
-Stack backtrace:
-   0: git_midx_writer_dump
-   1: git_midx_writer_dump
-   2: git_midx_writer_dump
-   3: git_midx_writer_dump
-   4: git_filter_source_repo
-   5: git_filter_source_repo
-   6: git_filter_source_repo
-   7: git_filter_source_repo
-   8: git_filter_source_repo
-   9: git_filter_source_repo
-  10: git_filter_source_repo
-  11: git_libgit2_prerelease
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: <unknown>
-  16: git_midx_writer_dump
-  17: git_filter_source_repo
-  18: git_midx_writer_dump
-  19: BaseThreadInitThunk
-  20: RtlUserThreadStart
+   0.064232100s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint: stale: changed "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs"
+   0.064293700s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:           (vs) "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\target\\debug\\.fingerprint\\multi-room-websocket-chat-server-53360eb6b5a8ad27\\dep-bin-multi-room-websocket-chat-server"
+   0.064310900s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 13425143200, nanos: 359111800 } < FileTime { seconds: 13425143330, nanos: 46729700 }
+   0.064521300s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint: fingerprint dirty for multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server)/Check { test: false }/TargetInner { name: "multi-room-websocket-chat-server", doc: true, ..: with_path("C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs", Edition2024) }
+   0.064601600s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\target\\debug\\.fingerprint\\multi-room-websocket-chat-server-53360eb6b5a8ad27\\dep-bin-multi-room-websocket-chat-server", reference_mtime: FileTime { seconds: 13425143200, nanos: 359111800 }, stale: "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs", stale_mtime: FileTime { seconds: 13425143330, nanos: 46729700 } }))
+   0.077088400s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint: stale: changed "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs"
+   0.077170100s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:           (vs) "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\target\\debug\\.fingerprint\\multi-room-websocket-chat-server-92c4a42a191536d1\\dep-test-bin-multi-room-websocket-chat-server"
+   0.077180200s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:                FileTime { seconds: 13425143200, nanos: 359111800 } < FileTime { seconds: 13425143330, nanos: 46729700 }
+   0.077382200s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint: fingerprint dirty for multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server)/Check { test: true }/TargetInner { name: "multi-room-websocket-chat-server", doc: true, ..: with_path("C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs", Edition2024) }
+   0.077420300s  INFO prepare_target{force=false package_id=multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server) target="multi-room-websocket-chat-server"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleItem(ChangedFile { reference: "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\target\\debug\\.fingerprint\\multi-room-websocket-chat-server-92c4a42a191536d1\\dep-test-bin-multi-room-websocket-chat-server", reference_mtime: FileTime { seconds: 13425143200, nanos: 359111800 }, stale: "C:\\Users\\sathw\\Documents\\rs+sol+zkp\\Rust-Projects\\multi-room-websocket-chat-server\\src\\main.rs", stale_mtime: FileTime { seconds: 13425143330, nanos: 46729700 } }))
     Checking multi-room-websocket-chat-server v0.1.0 (C:\Users\sathw\Documents\rs+sol+zkp\Rust-Projects\multi-room-websocket-chat-server)
-error: could not compile `multi-room-websocket-chat-server` (bin "multi-room-websocket-chat-server") due to 6 previous errors; 1 warning emitted
-warning: build failed, waiting for other jobs to finish...
-error: could not compile `multi-room-websocket-chat-server` (bin "multi-room-websocket-chat-server" test) due to 5 previous errors; 1 warning emitted
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.36s
