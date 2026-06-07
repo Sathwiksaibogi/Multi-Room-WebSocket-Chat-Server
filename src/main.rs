@@ -56,11 +56,52 @@ Sec-WebSocket-Accept: {}\r\n\r\n",
         loop{
             let mut msg_buffer=[0;1024];
             let n=socket.read(&mut msg_buffer).await.unwrap();
+            
             if n==0{
                 println!("client disconnected");
                 break;
             }
             println!("received {} raw binary data bytes from upgraded stream",n);
+            let first_byte=msg_buffer[0];
+            let opcode=first_byte & 0x0F;
+            if opcode == 0x8 {
+                println!("client requested connection closure");
+                break;
+            }
+            if opcode==0x1{
+                println!("text frame detected");
+                let second_byte=msg_buffer[1];
+                let mut payload_length=(second_byte & 0x7F) as usize;
+
+                let mask_key=&msg_buffer[2..6];
+                let raw_payload=&msg_buffer[6..6+payload_length];
+
+                let mut decoded_payload=Vec::new();
+                for i in 0..payload_length{
+                    let original_byte=raw_payload[i]^mask_key[i%4];
+                    decoded_payload.push(original_byte);
+                }
+                match String::from_utf8(decoded_payload){
+                    Ok(text)=>{
+                        println!("decoded message from client {}",text);
+                    }
+                    Err(e)=>{
+                        println!("failed to convert payload to string");
+                    }
+                }
+
+                let reply="message received";
+                let reply_bytes=reply.as_bytes();
+                let reply_len=reply_bytes.len();
+
+                let mut frame=Vec::new();
+                frame.push(0x81);
+                frame.push(reply_len as u8);
+                frame.extend_from_slice(reply_bytes);
+                socket.write_all(&frame).await.unwrap();
+
+
+            }
 
         }
         
