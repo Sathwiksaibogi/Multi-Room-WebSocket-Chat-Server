@@ -4,22 +4,30 @@ use tokio::net::TcpListener;
 use tokio::io::{AsyncReadExt,AsyncWriteExt};
 
 use state::{User,Room,ChatAppRoom};
+use std::sync::{Arc,Mutex};
+
+
+
 
 #[tokio::main]
 async fn main() ->Result<(),Box<dyn std::error::Error>>{
+    let shared_state=Arc::new(Mutex::new(ChatAppRoom::new()));
+   
+    
     let listener=TcpListener::bind("127.0.0.1:8080").await?;
     println!("server is live and listening to 127.0.0.1:8080");
     loop{
         let (socket,addr)=listener.accept().await?;
         println!("new connection established from {}",addr);
+        let state_clone=Arc::clone(&shared_state);
         tokio::spawn(async move {
-            handle_connection(socket).await;
+            handle_connection(socket,state_clone).await;
 
         });
     }
 }
 
-async fn handle_connection(mut socket:tokio::net::TcpStream){
+async fn handle_connection(mut socket:tokio::net::TcpStream,state:Arc<Mutex<ChatAppRoom>>){
     let mut buffer=[0;1024];
     let bytes_read=socket.read(&mut buffer).await.unwrap();
     let request=String::from_utf8_lossy(&buffer[..bytes_read]);
