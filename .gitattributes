@@ -1,0 +1,6 @@
+# Tell GitHub that Makefiles are documentation/vendor files and should be ignored in stats
+Makefile linguist-vendored
+makefile linguist-vendored
+
+# If you have a specific build or script folder causing trouble, you can treat it as documentation:
+# build/* linguist-documentation
