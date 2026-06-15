@@ -74,10 +74,13 @@ Sec-WebSocket-Accept: {}\r\n\r\n",
             decoded.push(payload[i]^mask[i%4]);
         }
         let join_text=String::from_utf8(decoded).unwrap();
+        let mut room_tx = None;
+        let mut rx = None;
+        let mut client_username = String::new();
         if join_text.starts_with("JOIN:"){
             let parts:Vec<&str>=join_text.split(':').collect();
             let room_name=parts[1].to_string();
-            let username=parts[2].to_string();
+            client_username=parts[2].to_string();
             let mut state_guard=state.lock().unwrap();
             let room=state_guard.chatroom.entry(room_name.clone()).or_insert_with(||{
                 let (tx,_)=tokio::sync::broadcast::channel(10);
@@ -87,62 +90,78 @@ Sec-WebSocket-Accept: {}\r\n\r\n",
                     members:Vec::new()
                 }
             });
+            rx = Some(room.tx.subscribe());
+            room_tx = Some(room.tx.clone());
             room.members.push(User{
-                user_name:username
+                user_name:client_username.clone()
             });
-            println!("successfully assigned client to group");
-        }
-        loop{
-            let mut msg_buffer=[0;1024];
-            let n=socket.read(&mut msg_buffer).await.unwrap();
             
-            if n==0{
-                println!("client disconnected");
-                break;
-            }
-            println!("received {} raw binary data bytes from upgraded stream",n);
-            let first_byte=msg_buffer[0];
-            let opcode=first_byte & 0x0F;
-            if opcode == 0x8 {
-                println!("client requested connection closure");
-                break;
-            }
-            if opcode==0x1{
-                println!("text frame detected");
-                let second_byte=msg_buffer[1];
-                let mut payload_length=(second_byte & 0x7F) as usize;
-
-                let mask_key=&msg_buffer[2..6];
-                let raw_payload=&msg_buffer[6..6+payload_length];
-
-                let mut decoded_payload=Vec::new();
-                for i in 0..payload_length{
-                    let original_byte=raw_payload[i]^mask_key[i%4];
-                    decoded_payload.push(original_byte);
-                }
-                match String::from_utf8(decoded_payload){
-                    Ok(text)=>{
-                        println!("decoded message from client {}",text);
-                    }
-                    Err(e)=>{
-                        println!("failed to convert payload to string");
-                    }
-                }
-
-                let reply="message received";
-                let reply_bytes=reply.as_bytes();
-                let reply_len=reply_bytes.len();
-
-                let mut frame=Vec::new();
-                frame.push(0x81);
-                frame.push(reply_len as u8);
-                frame.extend_from_slice(reply_bytes);
-                socket.write_all(&frame).await.unwrap();
-
-
-            }
-
+            println!("successfully assigned client : {} to group",client_username);
         }
+        let room_tx = room_tx.unwrap();
+        let mut rx = rx.unwrap();
+        loop {
+            let mut msg_buffer = [0; 1024];
+            
+            tokio::select! {
+                // EVENT A: Read incoming data from the browser socket
+                read_result = socket.read(&mut msg_buffer) => {
+                    let n = read_result.unwrap();
+                    if n == 0 {
+                        println!("client disconnected");
+                        break;
+                    }
+                    
+                    let first_byte = msg_buffer[0];
+                    let opcode = first_byte & 0x0F;
+                    
+                    if opcode == 0x8 {
+                        println!("client requested connection closure");
+                        break;
+                    }
+                    
+                    if opcode == 0x1 {
+                        let second_byte = msg_buffer[1];
+                        let payload_length = (second_byte & 0x7F) as usize;
+
+                        let mask_key = &msg_buffer[2..6];
+                        let raw_payload = &msg_buffer[6..6+payload_length];
+
+                        let mut decoded_payload = Vec::new();
+                        for i in 0..payload_length {
+                            let original_byte = raw_payload[i] ^ mask_key[i % 4];
+                            decoded_payload.push(original_byte);
+                        }
+                        
+                        if let Ok(text) = String::from_utf8(decoded_payload) {
+                            println!("decoded message from client {}: {}", client_username, text);
+                            
+                            // Format the message nicely and broadcast it to the entire room tower!
+                            let broadcast_msg = format!("{}: {}", client_username, text);
+                            let _ = room_tx.send(broadcast_msg);
+                        }
+                    }
+                }
+                
+                // EVENT B: Listen for incoming broadcasts from other clients in this room
+                broadcast_result = rx.recv() => {
+                    if let Ok(msg) = broadcast_result {
+                        let reply_bytes = msg.as_bytes();
+                        let reply_len = reply_bytes.len();
+
+                        // Package the broadcasted text into an unmasked frame
+                        let mut frame = Vec::new();
+                        frame.push(0x81);
+                        frame.push(reply_len as u8);
+                        frame.extend_from_slice(reply_bytes);
+                        
+                        // Blast it down to our client's browser!
+                        socket.write_all(&frame).await.unwrap();
+                    }
+                }
+            }
+        }
+    
         
     }
 }
