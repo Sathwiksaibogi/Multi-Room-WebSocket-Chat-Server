@@ -61,6 +61,37 @@ Sec-WebSocket-Accept: {}\r\n\r\n",
     }
     if handshake_success{
         println!("handshake successfull. keep connection alive...");
+        
+        let mut join_buffer=[0;1024];
+        let n=socket.read(&mut join_buffer).await.unwrap();
+        let second_byte=join_buffer[1];
+        let len=(second_byte & 0x7F) as usize;
+        let mask=&join_buffer[2..6];
+        let payload=&join_buffer[6..6+len];
+
+        let mut decoded=Vec::new();
+        for i in 0..len{
+            decoded.push(payload[i]^mask[i%4]);
+        }
+        let join_text=String::from_utf8(decoded).unwrap();
+        if join_text.starts_with("JOIN:"){
+            let parts:Vec<&str>=join_text.split(':').collect();
+            let room_name=parts[1].to_string();
+            let username=parts[2].to_string();
+            let mut state_guard=state.lock().unwrap();
+            let room=state_guard.chatroom.entry(room_name.clone()).or_insert_with(||{
+                let (tx,_)=tokio::sync::broadcast::channel(10);
+                Room{
+                    room_name,
+                    tx,
+                    members:Vec::new()
+                }
+            });
+            room.members.push(User{
+                user_name:username
+            });
+            println!("successfully assigned client to group");
+        }
         loop{
             let mut msg_buffer=[0;1024];
             let n=socket.read(&mut msg_buffer).await.unwrap();
